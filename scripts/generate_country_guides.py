@@ -3,6 +3,7 @@ import os
 
 # Load Excel with headers
 df = pd.read_excel("data/Copy of APAC Country Details.xlsx")
+print("🔍 Columns found:", df.columns.tolist())
 
 # Normalize country names in the 'Countries' column
 df["Countries"] = df["Countries"].astype(str).str.strip().str.lower()
