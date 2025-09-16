@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>HR Global Benefits Guide</title>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    input { width: 100%; padding: 0.5rem; margin-bottom: 1rem; }
+    .result { margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>🌍 HR Global Benefits Guide</h1>
+  <input type="text" id="search" placeholder="Search by country, tag, or keyword...">
+  <div id="results"></div>
+
+  <script>
+    const guides = [
+      "india", "indonesia", "south-korea", "philippines", "pakistan",
+      "japan", "china", "australia", "singapore", "malaysia",
+      "thailand", "vietnam", "hong-kong"
+    ];
+
+    const fuse = new Fuse(guides.map(g => ({ name: g })), {
+      keys: ['name'],
+      threshold: 0.3
+    });
+
+    document.getElementById('search').addEventListener('input', function(e) {
+      const results = fuse.search(e.target.value);
+      const container = document.getElementById('results');
+      container.innerHTML = results.map(r => `
+        <div class="result">
+          <a href="country-guides/${r.item.name}.md">${r.item.name.replace(/-/g, ' ')}</a>
+        </div>
+      `).join('');
+    });
+  </script>
+</body>
+</html>
