@@ -1,24 +1,45 @@
 import pandas as pd
 import os
 
-# Load Excel without headers
+# Load Excel with headers
 df = pd.read_excel("data/Copy of APAC Country Details.xlsx")
 
-# List of known country names
-country_list = [
+# Normalize country names in the Excel column
+df["Countries"] = df["Countries"].astype(str).str.strip().str.lower()
+
+# List of known country names (normalized)
+country_list = [c.lower().strip() for c in [
     "India", "Indonesia", "South Korea", "Philippines", "Pakistan", "Japan",
     "China", "Australia", "Singapore", "Malaysia", "Thailand", "Vietnam", "Hong Kong"
-]
+]]
 
-# Filter rows where first column matches a country name
-country_rows = df[df[0].isin(country_list)]
+# Map normalized names back to proper display names
+country_map = {
+    "india": "India",
+    "indonesia": "Indonesia",
+    "south korea": "South Korea",
+    "philippines": "Philippines",
+    "pakistan": "Pakistan",
+    "japan": "Japan",
+    "china": "China",
+    "australia": "Australia",
+    "singapore": "Singapore",
+    "malaysia": "Malaysia",
+    "thailand": "Thailand",
+    "vietnam": "Vietnam",
+    "hong kong": "Hong Kong"
+}
+
+# Filter rows where country name matches
+country_rows = df[df["Countries"].isin(country_list)]
 
 # Ensure output folder exists
 os.makedirs("country-guides", exist_ok=True)
 
 # Loop through each country row
 for _, row in country_rows.iterrows():
-    country = str(row[0]).strip()
+    key = row["Countries"]
+    country = country_map.get(key, key.title())
     filename = f"country-guides/{country.lower().replace(' ', '-')}.md"
 
     with open(filename, "w", encoding="utf-8") as f:
@@ -56,6 +77,7 @@ for _, row in country_rows.iterrows():
         elif country == "Australia":
             f.write("- [Fair Work Ombudsman](https://www.fairwork.gov.au)\n")
 
+        # 🧾 Summary of Benefits
         f.write("\n## 🧾 Summary of Benefits\n")
         for col in df.columns:
             if col != "Countries":
@@ -63,10 +85,11 @@ for _, row in country_rows.iterrows():
                 if val and val.lower() != "nan":
                     f.write(f"**{col}**: {val}\n\n")
 
-
+        # 🏷️ Tags
         f.write("## 🏷️ Tags\n")
         f.write("`#leave` `#termination` `#insurance` `#probation` `#severance`\n\n")
 
+        # ✅ Compliance Checklist
         f.write("## ✅ Compliance Checklist\n")
         f.write("- [ ] Minimum wage defined\n")
         f.write("- [ ] Statutory leave policies documented\n")
