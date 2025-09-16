@@ -2,14 +2,20 @@ import pandas as pd
 import os
 
 # Load Excel
-df = pd.read_excel("data/Copy of APAC Country Details.xlsx")
+df = pd.read_excel("data/Copy of APAC Country Details.xlsx", header=None)
+
+# Extract country rows — assume country names are in column 0
+country_rows = df[df[0].isin([
+    "India", "Indonesia", "South Korea", "Philippines", "Pakistan", "Japan",
+    "China", "Australia", "Singapore", "Malaysia", "Thailand", "Vietnam", "Hong Kong"
+])]
 
 # Ensure output folder exists
 os.makedirs("country-guides", exist_ok=True)
 
-# Loop through each country
-for _, row in df.iterrows():
-    country = row["Country"].strip()
+# Loop through each country row
+for _, row in country_rows.iterrows():
+    country = row[0].strip()
     filename = f"country-guides/{country.lower().replace(' ', '-')}.md"
 
     with open(filename, "w", encoding="utf-8") as f:
@@ -49,11 +55,9 @@ for _, row in df.iterrows():
         
 
         f.write("\n## 🧾 Summary of Benefits\n")
-        for col in df.columns:
-            if col != "Country":
-                val = str(row[col]).strip()
-                if val and val != "nan":
-                    f.write(f"**{col}**: {val}\n\n")
+        for i, val in enumerate(row[1:]):
+            if pd.notna(val):
+                f.write(f"**Field {i+1}**: {str(val).strip()}\n\n")
 
         f.write("## 🏷️ Tags\n")
         f.write("`#leave` `#termination` `#insurance` `#probation` `#severance`\n\n")
