@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 # Load Excel without headers
-df = pd.read_excel("data/Copy of APAC Country Details.xlsx", header=None)
+df = pd.read_excel("data/Copy of APAC Country Details.xlsx")
 
 # List of known country names
 country_list = [
@@ -57,9 +57,12 @@ for _, row in country_rows.iterrows():
             f.write("- [Fair Work Ombudsman](https://www.fairwork.gov.au)\n")
 
         f.write("\n## 🧾 Summary of Benefits\n")
-        for i, val in enumerate(row[1:]):
-            if pd.notna(val):
-                f.write(f"**Field {i+1}**: {str(val).strip()}\n\n")
+        for col in df.columns:
+            if col != "Countries":
+                val = str(row[col]).strip()
+                if val and val.lower() != "nan":
+                    f.write(f"**{col}**: {val}\n\n")
+
 
         f.write("## 🏷️ Tags\n")
         f.write("`#leave` `#termination` `#insurance` `#probation` `#severance`\n\n")
