@@ -8,9 +8,19 @@
     body { font-family: sans-serif; padding: 2rem; }
     input { width: 100%; padding: 0.5rem; margin-bottom: 1rem; }
     .result { margin-bottom: 1rem; }
+    .author { margin-bottom: 2rem; border-bottom: 1px solid #ccc; padding-bottom: 1rem; }
+    .author img { width: 100px; border-radius: 50%; }
   </style>
 </head>
 <body>
+  <div class="author">
+    <!-- Optional photo -->
+    <!-- <img src="templates/shubham-kadam.jpg" alt="Shubham Kadam"> -->
+    <h2>👤 Author: Shubham Kadam</h2>
+    <p>Profession: Human Resource Professional</p>
+    <p><a href="https://www.linkedin.com/in/shubh2r/" target="_blank">🔗 LinkedIn Profile</a></p>
+  </div>
+
   <h1>🌍 HR Global Benefits Guide</h1>
   <input type="text" id="search" placeholder="Search by country, tag, or keyword...">
   <div id="results"></div>
@@ -32,7 +42,9 @@
       const container = document.getElementById('results');
       container.innerHTML = results.map(r => `
         <div class="result">
-          <a href="country-guides/${r.item.name}.md">${r.item.name.replace(/-/g, ' ')}</a>
+          <a href="country-guides-html/${r.item.name}.html" target="_blank">
+            ${r.item.name.replace(/-/g, ' ')}
+          </a>
         </div>
       `).join('');
     });
