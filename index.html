@@ -7,48 +7,72 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Inter', sans-serif;
       margin: 0;
-      padding: 2rem;
-      background-color: #f4f6f8;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #e3f2fd, #fce4ec);
       color: #2c3e50;
     }
     .container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: auto;
+      padding: 2rem;
     }
-    .author {
-      background: #ffffff;
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      margin-bottom: 2rem;
+    header {
+      text-align: center;
+      padding: 2rem 0;
+      background: linear-gradient(to right, #2196f3, #e91e63);
+      color: white;
+      border-radius: 0 0 12px 12px;
     }
-    .author h2 {
-      margin-bottom: 0.5rem;
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    .section-title {
       font-size: 1.5rem;
-      color: #34495e;
-    }
-    .author p {
-      margin: 0.3rem 0;
-      font-size: 1rem;
-    }
-    h1 {
-      font-size: 2rem;
+      margin-top: 2rem;
       margin-bottom: 1rem;
-      color: #2c3e50;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 0.5rem;
+    }
+    .authors {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .author-card {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      flex: 1;
+      min-width: 280px;
+      text-align: center;
+    }
+    .author-card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 0.5rem;
+    }
+    .author-card h3 {
+      margin: 0.5rem 0 0.2rem;
+    }
+    .author-card p {
+      margin: 0.2rem 0;
     }
     input {
       width: 100%;
       padding: 0.75rem;
-      margin-bottom: 2rem;
+      margin: 1rem 0 2rem;
       font-size: 1rem;
       border: 1px solid #ccc;
       border-radius: 6px;
       box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
     }
     .result {
-      background: #ffffff;
+      background: white;
       padding: 1rem 1.5rem;
       margin-bottom: 1rem;
       border-radius: 8px;
@@ -67,18 +91,31 @@
   </style>
 </head>
 <body>
+  <header>
+    <h1>🌍 HR Global Benefits Guide</h1>
+    <p>Explore country-wise compliance and benefits insights</p>
+  </header>
+
   <div class="container">
-    <div class="author">
-      <h2>👥 Authors</h2>
-      <p><strong>Shubham Kadam</strong> – Human Resource Professional  
-        <a href="https://www.linkedin.com/in/shubh2r/" target="_blank">🔗 LinkedIn</a>
-      </p>
-      <p><strong>Hitika Rathod</strong> – Human Resource Professional  
-        <a href="https://www.linkedin.com/in/hitika-rathod-1074702a9/" target="_blank">🔗 LinkedIn</a>
-      </p>
+    <div class="section-title">👥 Meet the Team</div>
+    <div class="authors">
+      <div class="author-card">
+        <img src="templates/shubham-kadam.jpg" alt="Shubham Kadam">
+        <h3>Shubham Kadam</h3>
+        <p><strong>Author</strong></p>
+        <p>Human Resource Professional</p>
+        <p><a href="https://www.linkedin.com/in/shubh2r/" target="_blank">🔗 LinkedIn</a></p>
+      </div>
+      <div class="author-card">
+        <img src="templates/hitika-rathod.jpg" alt="Hitika Rathod">
+        <h3>Hitika Rathod</h3>
+        <p><strong>Co-author</strong></p>
+        <p>Human Resource Professional</p>
+        <p><a href="https://www.linkedin.com/in/hitika-rathod-1074702a9/" target="_blank">🔗 LinkedIn</a></p>
+      </div>
     </div>
 
-    <h1>🌍 HR Global Benefits Guide</h1>
+    <div class="section-title">📖 Country Guides</div>
     <input type="text" id="search" placeholder="Search by country, tag, or keyword...">
     <div id="results"></div>
   </div>
@@ -107,10 +144,8 @@
       `).join('');
     }
 
-    // Show all countries by default
     renderResults(guides.map(name => ({ name })));
 
-    // Filter on input
     document.getElementById('search').addEventListener('input', function(e) {
       const results = fuse.search(e.target.value);
       renderResults(results.length ? results.map(r => r.item) : guides.map(name => ({ name })));
