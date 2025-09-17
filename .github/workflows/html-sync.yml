@@ -1,0 +1,32 @@
+name: Convert Markdown to HTML
+
+on:
+  push:
+    paths:
+      - 'country-guides/*.md'
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install markdown package
+        run: pip install markdown
+
+      - name: Run conversion script
+        run: python scripts/convert_md_to_html.py
+
+      - name: Commit HTML files
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add country-guides-html/*.html
+          git commit -m "🔄 Auto-converted updated Markdown to HTML"
+          git push
