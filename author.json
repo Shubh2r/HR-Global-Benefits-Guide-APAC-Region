@@ -1,5 +1,7 @@
-{
-  "name": "Shubham Kadam",
-  "profession": "Human Resource Professional",
-  "linkedin": "https://in.https://www.linkedin.com/in/shubh2r/",
-}
+// Author.js
+export const author = {
+  name: "Shubham Kadam",
+  profession: "Human Resource Professional",
+  linkedin: "https://in.linkedin.com/in/shubham-kadam-674b20286",
+  photo: "templates/shubham-kadam.jpg" // optional, can be skipped
+};
